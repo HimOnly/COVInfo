@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="modal-style.css" type="text/css"> -->
+
+  <script>
+    // This is the "Offline page" service worker
+
+    // Add this below content to your HTML page, or add the js file to your page at the very top to register service worker
+
+    // Check compatibility for the browser we're running this in
+    if ("serviceWorker" in navigator) {
+      if (navigator.serviceWorker.controller) {
+        console.log(
+          "[PWA Builder] active service worker found, no need to register"
+        );
+      } else {
+        // Register the service worker
+        navigator.serviceWorker
+          .register("./sw.js", {
+            scope: "."
+          })
+          .then(function (reg) {
+            console.log(
+              "[PWA Builder] Service worker has been registered for scope: " +
+              reg.scope
+            );
+          });
+      }
+    }
+  </script>
+  <link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com">
+  <meta property="og:title" content="COVInfo| Latest News about COVID-19" />
+  <meta property="og:description" content="Get the lastest news about COVID-19 around the globe." />
+  <meta property="og:site_name" content="COVInfo"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://himonly.gitbub.io/COVInfo" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="prefetch" as="style" href="style.css">
+  <link rel="prefetch" as="script" href="jquery-3.4.1.slim.min.js" />
+  <link rel="prefetch" as="script" href="feednami-client-v1.1.js" />
+  <link rel="prefetch" as="script" href="lazyload.min.js" />
+  <meta name="apple-mobile-web-app-title" content="COVInfo" />
+  <meta name="application-name" content="COVInfo" />
+  <meta name="msapplication-TileColor" content="#da532c" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>COVInfo | Latest News, Live Updates & Statistics about COVID-19 (Corona Virus) around the Globe</title>
+</head>
+
+<body>
+  <!--  
+    <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId            : '2473561846298282',
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v6.0'
+      });
+    };
+  </script>
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+  -->
+  <div class="ad2hs-prompt">
+    <div class="modal-content">
+      <img src="android-chrome-192x192.png" alt="" style="width:30%;margin:auto;padding:20px 0 0 0" />
+      <p style="padding: 10px 20px 5px 20px; font-size:20px;">
+        Add COVInfo to your Home Screen ?
+      </p>
+      <p style="padding: 0 30px 5px 30px; font-size:15px;  line-height:1.5em">
+        Get to COVInfo quickly by adding it to your home screen.
+      </p>
+      <hr />
+      <p id="add" style="font-weight: bold;color: rgb(8, 142, 252);cursor:pointer;">
+        Add to Home Screen
+      </p>
+      <hr />
+      <p onclick="Cancel()" style="font-weight: bold;color: red; cursor:pointer;">
+        cancel
+      </p>
+    </div>
+  </div>
+  <marquee direction="left" hspace="aut"><h3>Latest News, Live Updates & Statistics about COVID-19 (Corona Virus) around the Globe</h3></marquee> 
+  <div class="content">
+    <nav style="text-align: center;">
+      <span class="nav-link" style="float: left;">
+        <h2>COVInfo</h2>
+      </span>
+      <span class="nav-link" style="float: right;">
+        <button style="font-size: large;" >
+          <a href="https://www.worldometers.info/coronavirus/" >View Global Life Statistics</a>
+        </button>
+      </span>
+      <span class="nav-link" style="float: right; padding-right: 15px; ">
+        <button style="font-size: large;" >
+          <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/videos">How to STAY SAFE</a>
+        </button>
+      </span>
+    </nav>
+    <br>
+    <hr />
+    <h3 style="text-align: auto;">  
+      <button><a href="germany.html" style="color: chartreuse;">COVInfo Germany</a></button> | 
+      <button><a href="nigeria.html" style="color: hotpink;">COVInfo Nigeria</a></button> | 
+      <button><a href="uk.html" style="color:darkgoldenrod">COVInfo UK</a></button>
+      <button><a href="italy.html" style="color: green">COVInfo Italy</a></button> | 
+      <button><a href="usa.html" style="color:blueviolet">COVInfo USA</a></button> |
+      <button><a href="china.html" style="color: red;">COVInfo China</a></button> |
+      <button><a href="index.html" style="color:mediumvioletred;">COVInfo Home</a></button> |
+      <button><a href="about.html" style="color:rgb(8, 142, 252);">About this APP</a></button>
+    </h3>
+    <br />
+    <div>
+      <ul id="news">
+      </ul>
+    </div>
+
+    <!-- <div class="modal" id="modal">
+      <div class="modal__content">
+        <a href="#" class="modal__close">&times;</a>
+        <h2 class="modal__heading">Desi Developer</h2>
+        <p class="modal__paragraph">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis possimus inventore suscipit mollitia, odit aliquam laudantium praesentium porro hic asperiores expedita obcaecati earum ullam, nisi laborum accusamus, id placeat tenetur?
+        Consequatur, neque. Explicabo, reiciendis quia distinctio eius facere pariatur expedita, amet hic alias illum harum inventore, ullam tempore quos. Quod, repellat ratione culpa qui harum blanditiis atque voluptatem iste id.
+        Rerum veniam ipsum quisquam mollitia vel fuga dicta tempora. Magni, labore beatae eaque suscipit mollitia pariatur impedit accusantium explicabo aspernatur adipisci sapiente eveniet qui facilis in voluptas nisi! Ipsum, praesentium!
+        Quos, ex. Ipsum asperiores quasi, nam atque voluptatibus reprehenderit repellat fuga pariatur consequatur quae hic, numquam commodi illo aut. Laborum et natus magni illum tenetur est, minus eligendi quisquam facilis.
+        Quis enim sit facilis, dolor, ab quas sint sapiente ut voluptatibus excepturi dolorum, consequuntur doloremque error facere? Nisi vel placeat magni asperiores, id, aliquid quisquam eos et eum repellat molestiae.</p>
+      </div>
+   </div> -->
+
+    <p style="text-align: center; font-weight:700;">
+      Created with <i class="fa fa-heart-o" style="font-size:18px;color:red"></i> & <a href="https://newsapi.org">NewsApi.Org.</a> <a href="https://godspoweralo.top/webcv"></a> By
+      <a href="https://godspoweralo.top/webcv/">God'spower Alo</a>
+    </p>
+  </div>
+  <!-- Go to www.addthis.com/dashboard to customize your tools -->
+  <!--<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5e7de6e894ad4146"></script>
+-->
+</body>
+<script>
+
+</script>
+<script>
+  const body = document.body;
+  function dToggle() {
+    body.classList.toggle("darkmode");
+  }</script>
+<script>
+  //the code for custom add to homescreen prompt
+  var deferredPrompt;
+
+  window.addEventListener("beforeinstallprompt", function (e) {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+
+    showAddToHomeScreen();
+  });
+
+  function showAddToHomeScreen() {
+    var a2hsBtn = document.querySelector(".ad2hs-prompt");
+
+    a2hsBtn.style.display = "block";
+
+    document.getElementById("add").addEventListener("click", addToHomeScreen);
+  }
+  function addToHomeScreen() {
+    var a2hsBtn = document.querySelector(".ad2hs-prompt"); // hide our user interface that shows our A2HS button
+    a2hsBtn.style.display = "none"; // Show the prompt
+    deferredPrompt.prompt(); // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then(function (choiceResult) {
+      if (choiceResult.outcome === "accepted") {
+        console.log("User accepted the A2HS prompt");
+      } else {
+        a2hsBtn.style.display = "none"; // Show the prompt
+
+        console.log("User dismissed the A2HS prompt");
+      }
+
+      deferredPrompt = null;
+    });
+  }
+</script>
+<script>
+  function Cancel() {
+    document.querySelector(".ad2hs-prompt").style.display = "none";
+  }
+
+  const url =
+    "https://newsapi.org/v2/top-headlines?country=ng&category=health&apiKey=7b60057bfcf14071a7d905c513ed241b"; // Get 10 random users
+  const ul = document.getElementById("news");
+  //code for creation of elements for the data display
+  function createNode(element) {
+    return document.createElement(element); // Create the type of element you pass in the parameters
+  }
+
+  function append(parent, el) {
+    return parent.appendChild(el); // Append the second parameter(element) to the first one
+  }
+  //fetch() to get news from api
+  function getData() {
+    fetch(url)
+      .then(resp => resp.json()) // Transform the data into json
+      .then(function (data) {
+        let authors = data.articles;
+        return authors.map(item => {
+          let li = createNode("li"),
+            h4 = createNode("h3");
+          p2 = createNode("p");
+          img = createNode("img");
+          link = createNode("a");
+          line = createNode("span");
+          link2 = createNode("a")
+          link3 = createNode("a")
+
+          link3.setAttribute("onclick", " FB.ui({display: 'popup',method: 'share',href:'" + item.url + "',}, function(response){});")
+         // link2.setAttribute("href", "whatsapp://send?text=" + item.url)
+          link2.setAttribute("data-action", "share/whatsapp/share")
+          link2.setAttribute("class", "washare")
+          link.setAttribute("href", item.url);
+          link.setAttribute("target", "_blank");
+          img.setAttribute("src", item.urlToImage);
+          h4.innerHTML = `${item.title}`;
+          link.innerHTML = `${"Link to article >>"}`;
+          //link2.innerHTML = `${'<img src="https://img.icons8.com/color/48/000000/whatsapp.png"/>'}`;
+          link3.innerHTML = `${"Fb"}`;
+          p2.innerHTML = `${item.description}`;
+          line.innerHTML = `${"<hr>"}`;
+
+          append(li, h4);
+          append(li, img);
+          append(li, p2);
+          append(li, link);
+          //append(li,link3);
+          append(li, link2);
+          append(li, line);
+          append(ul, li);
+        });
+      });
+  }
+
+  window.onload = getData();
+
+</script>
+
+</html>

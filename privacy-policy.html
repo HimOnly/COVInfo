@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="modal-style.css" type="text/css"> -->
+
+  <script>
+    // This is the "Offline page" service worker
+
+    // Add this below content to your HTML page, or add the js file to your page at the very top to register service worker
+
+    // Check compatibility for the browser we're running this in
+    if ("serviceWorker" in navigator) {
+      if (navigator.serviceWorker.controller) {
+        console.log(
+          "[PWA Builder] active service worker found, no need to register"
+        );
+      } else {
+        // Register the service worker
+        navigator.serviceWorker
+          .register("./sw.js", {
+            scope: "."
+          })
+          .then(function (reg) {
+            console.log(
+              "[PWA Builder] Service worker has been registered for scope: " +
+              reg.scope
+            );
+          });
+      }
+    }
+  </script>
+  <link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com">
+  <meta property="og:title" content="COVInfo| Latest News about COVID-19" />
+  <meta property="og:description" content="Get the lastest news about COVID-19 around the globe." />
+  <meta property="og:site_name" content="COVInfo"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://himonly.gitbub.io/COVInfo" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="prefetch" as="style" href="style.css">
+  <link rel="prefetch" as="script" href="jquery-3.4.1.slim.min.js" />
+  <link rel="prefetch" as="script" href="feednami-client-v1.1.js" />
+  <link rel="prefetch" as="script" href="lazyload.min.js" />
+  <meta name="apple-mobile-web-app-title" content="COVInfo" />
+  <meta name="application-name" content="COVInfo" />
+  <meta name="msapplication-TileColor" content="#da532c" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>COVInfo | Latest News, Live Updates & Statistics about COVID-19 (Corona Virus) around the Globe</title>
+</head>
+
+<body>
+  <!--  
+    <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId            : '2473561846298282',
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v6.0'
+      });
+    };
+  </script>
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+  -->
+  <div class="ad2hs-prompt">
+    <div class="modal-content">
+      <img src="android-chrome-192x192.png" alt="" style="width:30%;margin:auto;padding:20px 0 0 0" />
+      <p style="padding: 10px 20px 5px 20px; font-size:20px;">
+        Add COVInfo to your Home Screen ?
+      </p>
+      <p style="padding: 0 30px 5px 30px; font-size:15px;  line-height:1.5em">
+        Get to COVInfo quickly by adding it to your home screen.
+      </p>
+      <hr />
+      <p id="add" style="font-weight: bold;color: rgb(8, 142, 252);cursor:pointer;">
+        Add to Home Screen
+      </p>
+      <hr />
+      <p onclick="Cancel()" style="font-weight: bold;color: red; cursor:pointer;">
+        cancel
+      </p>
+    </div>
+  </div>
+  <marquee direction="left" hspace="aut"><h3>Latest News, Live Updates & Statistics about COVID-19 (Corona Virus) around the Globe</h3></marquee> 
+  <div class="content">
+    <nav style="text-align: center;">
+      <span class="nav-link" style="float: left;">
+        <h2>COVInfo</h2>
+      </span>
+      <span class="nav-link" style="float: right;">
+        <button style="font-size: large;" >
+          <a href="https://www.worldometers.info/coronavirus/" >View Global Life Statistics</a>
+        </button>
+      </span>
+      <span class="nav-link" style="float: right; padding-right: 15px; ">
+        <button style="font-size: large;" >
+          <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/videos">How to STAY SAFE</a>
+        </button>
+      </span>
+    </nav>
+    <br>
+    <hr />
+    <h3 style="text-align: auto;">  
+      <button><a href="germany.html" style="color: chartreuse;">COVInfo Germany</a></button> | 
+      <button><a href="nigeria.html" style="color: hotpink;">COVInfo Nigeria</a></button> | 
+      <button><a href="uk.html" style="color:darkgoldenrod">COVInfo UK</a></button>
+      <button><a href="china.html" style="color: green">COVInfo China</a></button> | 
+      <button><a href="usa.html" style="color:blueviolet">COVInfo USA</a></button> |
+      <button><a href="global.html" style="color: red;">COVInfo Home</a></button> |
+      <button><a href="index.html" style="color:mediumvioletred;">COVInfo Home</a></button> |
+      <button><a href="about.html" style="color:rgb(8, 142, 252);">About this APP</a></button>
+    </h3>
+    <br />
+    <div>
+      <ul id="news">
+      </ul>
+    </div>
+
+    <h2>Privacy Policy</h2> <p>
+      This web app project is built or created by God'spower Alo as
+      an Open Source app. This SERVICE is made available at no cost and is intended for
+      use as is.
+    </p> <p>
+      This page is used to inform visitors regarding
+      my policies with the collection, use, and
+      disclosure of Personal Information if anyone decided to use
+      my Service.
+    </p> <p>
+      If you choose to use my Service, then you agree
+      to the collection and use of information in relation to this
+      policy. The Personal Information that I collect is
+      used for providing and improving the Service.
+      I will not use or share your
+      information with anyone except as described in this Privacy
+      Policy.
+    </p> <p>
+      The terms used in this Privacy Policy have the same meanings
+      as in our Terms and Conditions, which is accessible at
+      Headliner unless otherwise defined in this Privacy
+      Policy.
+    </p> <p><strong>Information Collection and Use</strong></p> <p>
+      For a better experience, while using our Service,
+      I may require you to provide us with certain
+      personally identifiable information, including but not limited to No information is collected. The
+      information that I request will be
+      retained on your device and is not collected by me in any way.
+    </p> <p>
+      The app does use third party services that may collect
+      information used to identify you.
+    </p> <div><p>
+        Link to privacy policy of third party service providers
+        used by the app
+      </p> <ul><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></ul></div> <p><strong>Log Data</strong></p> <p>
+      I want to inform you that whenever
+      you use my Service, in a case of an error in the
+      app I collect data and information (through third
+      party products) on your phone called Log Data. This Log Data
+      may include information such as your device Internet
+      Protocol (“IP”) address, device name, operating system
+      version, the configuration of the app when utilizing
+      my Service, the time and date of your use of the
+      Service, and other statistics.
+    </p> <p><strong>Cookies</strong></p> <p>
+      Cookies are files with a small amount of data that are
+      commonly used as anonymous unique identifiers. These are
+      sent to your browser from the websites that you visit and
+      are stored on your device's internal memory.
+    </p> <p>
+      This Service does not use these “cookies” explicitly.
+      However, the app may use third party code and libraries that
+      use “cookies” to collect information and improve their
+      services. You have the option to either accept or refuse
+      these cookies and know when a cookie is being sent to your
+      device. If you choose to refuse our cookies, you may not be
+      able to use some portions of this Service.
+    </p> <p><strong>Service Providers</strong></p> <p>
+      I may employ third-party companies
+      and individuals due to the following reasons:
+    </p> <ul><li>To facilitate our Service;</li> <li>To provide the Service on our behalf;</li> <li>To perform Service-related services; or</li> <li>To assist us in analyzing how our Service is used.</li></ul> <p>
+      I want to inform users of this
+      Service that these third parties have access to your
+      Personal Information. The reason is to perform the tasks
+      assigned to them on our behalf. However, they are obligated
+      not to disclose or use the information for any other
+      purpose.
+    </p> <p><strong>Security</strong></p> <p>
+      I value your trust in providing us
+      your Personal Information, thus we are striving to use
+      commercially acceptable means of protecting it. But remember
+      that no method of transmission over the internet, or method
+      of electronic storage is 100% secure and reliable, and
+      I cannot guarantee its absolute security.
+    </p> <p><strong>Links to Other Sites</strong></p> <p>
+      This Service may contain links to other sites. If you click
+      on a third-party link, you will be directed to that site.
+      Note that these external sites are not operated by
+      me. Therefore, I strongly advise you to
+      review the Privacy Policy of these websites.
+      I have no control over and assume no
+      responsibility for the content, privacy policies, or
+      practices of any third-party sites or services.
+    </p> <p><strong>Children’s Privacy</strong></p> <p>
+      These Services do not address anyone under the age of 13.
+      I do not knowingly collect personally
+      identifiable information from children under 13. In the case
+      I discover that a child under 13 has provided
+      me with personal information,
+      I immediately delete this from our servers. If you
+      are a parent or guardian and you are aware that your child
+      has provided us with personal information, please contact
+      me so that I will be able to do
+      necessary actions.
+    </p> <p><strong>Changes to This Privacy Policy</strong></p> <p>
+      I may update our Privacy Policy from
+      time to time. Thus, you are advised to review this page
+      periodically for any changes. I will
+      notify you of any changes by posting the new Privacy Policy
+      on this page. These changes are effective immediately after
+      they are posted on this page.
+    </p> <p><strong>Contact Us</strong></p> <p>
+      If you have any questions or suggestions about
+      my Privacy Policy, do not hesitate to contact
+      me at godspoweralo@gmail.com.
+    </p> 
+</body></html>
+
+    <p style="text-align: center; font-weight:700;">
+      Created with <i class="fa fa-heart-o" style="font-size:18px;color:red"></i> & <a href="https://newsapi.org">NewsApi.Org.</a> <a href="https://godspoweralo.top/webcv"></a> By
+      <a href="https://godspoweralo.top/webcv/">God'spower Alo</a>
+    </p>
+  </div>
+  <!-- Go to www.addthis.com/dashboard to customize your tools -->
+  <!--<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5e7de6e894ad4146"></script>
+-->
+</body>
+<script>
+
+</script>
+<script>
+  const body = document.body;
+  function dToggle() {
+    body.classList.toggle("darkmode");
+  }</script>
+<script>
+  //the code for custom add to homescreen prompt
+  var deferredPrompt;
+
+  window.addEventListener("beforeinstallprompt", function (e) {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+
+    showAddToHomeScreen();
+  });
+
+  function showAddToHomeScreen() {
+    var a2hsBtn = document.querySelector(".ad2hs-prompt");
+
+    a2hsBtn.style.display = "block";
+
+    document.getElementById("add").addEventListener("click", addToHomeScreen);
+  }
+  function addToHomeScreen() {
+    var a2hsBtn = document.querySelector(".ad2hs-prompt"); // hide our user interface that shows our A2HS button
+    a2hsBtn.style.display = "none"; // Show the prompt
+    deferredPrompt.prompt(); // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then(function (choiceResult) {
+      if (choiceResult.outcome === "accepted") {
+        console.log("User accepted the A2HS prompt");
+      } else {
+        a2hsBtn.style.display = "none"; // Show the prompt
+
+        console.log("User dismissed the A2HS prompt");
+      }
+
+      deferredPrompt = null;
+    });
+  }
+</script>
+<script>
+  function Cancel() {
+    document.querySelector(".ad2hs-prompt").style.display = "none";
+  }
+
+  const url =
+    ""; // Get 10 random users
+  const ul = document.getElementById("news");
+  //code for creation of elements for the data display
+  function createNode(element) {
+    return document.createElement(element); // Create the type of element you pass in the parameters
+  }
+
+  function append(parent, el) {
+    return parent.appendChild(el); // Append the second parameter(element) to the first one
+  }
+  //fetch() to get news from api
+  function getData() {
+    fetch(url)
+      .then(resp => resp.json()) // Transform the data into json
+      .then(function (data) {
+        let authors = data.articles;
+        return authors.map(item => {
+          let li = createNode("li"),
+            h4 = createNode("h3");
+          p2 = createNode("p");
+          img = createNode("img");
+          link = createNode("a");
+          line = createNode("span");
+          link2 = createNode("a")
+          link3 = createNode("a")
+
+          link3.setAttribute("onclick", " FB.ui({display: 'popup',method: 'share',href:'" + item.url + "',}, function(response){});")
+         // link2.setAttribute("href", "whatsapp://send?text=" + item.url)
+          link2.setAttribute("data-action", "share/whatsapp/share")
+          link2.setAttribute("class", "washare")
+          link.setAttribute("href", item.url);
+          link.setAttribute("target", "_blank");
+          img.setAttribute("src", item.urlToImage);
+          h4.innerHTML = `${item.title}`;
+          link.innerHTML = `${"Link to article >>"}`;
+          //link2.innerHTML = `${'<img src="https://img.icons8.com/color/48/000000/whatsapp.png"/>'}`;
+          link3.innerHTML = `${"Fb"}`;
+          p2.innerHTML = `${item.description}`;
+          line.innerHTML = `${"<hr>"}`;
+
+          append(li, h4);
+          append(li, img);
+          append(li, p2);
+          append(li, link);
+          //append(li,link3);
+          append(li, link2);
+          append(li, line);
+          append(ul, li);
+        });
+      });
+  }
+
+  window.onload = getData();
+
+</script>
+
+</html>
